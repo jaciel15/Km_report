@@ -186,27 +186,41 @@ function importarWhatsApp(){
 
 let texto = document.getElementById('whatsappText').value;
 
-texto = texto.replace(/\u00A0/g, ' ');
+let lineas = texto.split('\n');
 
-function extraer(campo){
+let auto = '';
+let placa = '';
+let kmAnterior = '';
+let kmNuevo = '';
+let vin = '';
 
-let regex = new RegExp(campo + ".*?:\\s*(.*)", "i");
+lineas.forEach(linea => {
 
-let match = texto.match(regex);
+let l = linea.replace(/\*/g,'').trim();
 
-return match ? match[1].replace(/\*/g,'').trim() : '';
-
+if(l.includes('AUTO')){
+auto = l.split(':')[1]?.trim() || '';
 }
 
-let auto = extraer('AUTO');
+if(l.includes('PLACA')){
+placa = l.split(':')[1]?.trim() || '';
+}
 
-let placa = extraer('PLACA');
+if(l.includes('KM')){
+if(l.includes('anterior')){
+kmAnterior = l.split(':')[1]?.trim() || '';
+}
+}
 
-let kmAnterior = extraer('KM anterior');
+if(l.includes('CORECTO KM')){
+kmNuevo = l.split(':')[1]?.trim() || '';
+}
 
-let kmNuevo = extraer('CORECTO KM');
+if(l.includes('VIN')){
+vin = l.split(':')[1]?.trim() || '';
+}
 
-let vin = extraer('VIN');
+});
 
 document.getElementById('folderSelect').value = auto.toUpperCase();
 
