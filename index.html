@@ -430,14 +430,14 @@ div.innerHTML='';
 
 data.folders.forEach(folder=>{
 
-let records = data.records.filter(r=>r.folder===folder);
+let records = data.records.filter(r => r.folder === folder);
 
 let archivos = {};
 
 records.forEach(r=>{
 
 if(!archivos[r.archivo]){
-archivos[r.archivo]=[];
+archivos[r.archivo] = [];
 }
 
 archivos[r.archivo].push(r);
@@ -445,6 +445,7 @@ archivos[r.archivo].push(r);
 });
 
 div.innerHTML += `
+
 <div class="folder">
 
 <div class="folder-title" onclick="toggleFolder('${folder}')" style="cursor:pointer;">
@@ -457,10 +458,9 @@ BORRAR CARPETA
 </button>
 </div>
 
-
 <div id="content_${folder}" style="display:none;">
 
-${Object.keys(archivos).map(file=>`
+${Object.keys(archivos).map(file => `
 
 <div class="file-box">
 
@@ -479,7 +479,7 @@ TOTAL VEHÍCULOS: ${archivos[file].length}
 <div style="margin-top:15px;">
 
 ${archivos[file].map(r => `
-    
+
 <div style="
 padding:10px;
 border:1px solid #ccc;
@@ -508,7 +508,10 @@ FECHA: ${r.obs}
 </div>
 
 </div>
+
 `;
+
+});
 
 }
 
