@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KM Report</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f2f2f2;
+margin:0;
+padding:15px;
+}
+.container{
+max-width:1200px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.2);
+}
+h1,h2{
+text-align:center;
+margin:0;
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:10px;
+margin-top:20px;
+}
+input,select,button{
+padding:12px;
+border:1px solid black;
+border-radius:5px;
+font-size:14px;
+}
+button{
+background:black;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+.folder{
+border:2px solid black;
+padding:15px;
+margin-top:20px;
+border-radius:8px;
+}
+.folder-title{
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
+}
+.file-box{
+border:1px solid black;
+padding:10px;
+margin-top:15px;
+}
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+th,td{
+border:1px solid black;
+padding:6px;
+text-align:center;
+font-size:12px;
+}
+th{
+background:black;
+color:white;
+}
+.top-buttons{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:10px;
+}
+.red{
+background:red;
+}
+.gray{
+background:#444;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>VELOCIMETROS CHARLY</h1>
+<h2>REPORTE DE KILOMETRAJES</h2>
+
+<div class="grid">
+
+<select id="folderSelect"></select>
+
+<input type="text" id="newFolder" placeholder="Nueva carpeta">
+
+<button onclick="crearCarpeta()">CREAR CARPETA</button>
+
+<input type="text" id="placas" placeholder="PLACAS">
+
+<input type="number" id="kmAnterior" placeholder="KM ANTERIOR">
+
+<input type="number" id="kmNuevo" placeholder="KM NUEVO">
+
+<input type="text" id="vin" placeholder="VIN">
+
+<input type="text" id="obs" placeholder="OBSERVACIONES">
+
+</div>
+
+<div class="top-buttons">
+<button onclick="agregarRegistro()">AGREGAR VEHÍCULO</button>
+</div>
+
+<div id="folders"></div>
+
+</div>
+
+<script>
+
+let hoy = new Date().toISOString().split('T')[0];
+
+let data = JSON.parse(localStorage.getItem('kmreportmaster')) || {
+folders:['AVEO','L200','ELANTRA','SENTRA'],
+records:[]
+};
+
+function saveData(){
+localStorage.setItem('kmreportmaster', JSON.stringify(data));
+}
+
+function renderFolderSelect(){
+
+let select = document.getElementById('folderSelect');
+select.innerHTML='';
+
+data.folders.forEach(f=>{
+select.innerHTML += `<option value="${f}">${f}</option>`;
+});
+
+}
+
+function crearCarpeta(){
+
+let nombre = document.getElementById('newFolder').value.trim().toUpperCase();
+
+if(!nombre){
+alert('Escribe nombre');
+return;
+}
+
+if(data.folders.includes(nombre)){
+alert('Ya existe');
+return;
+}
+
+data.folders.push(nombre);
+
+saveData();
+renderFolderSelect();
+renderFolders();
+
+document.getElementById('newFolder').value='';
+
+}
+
+function agregarRegistro(){
+
+let folder = document.getElementById('folderSelect').value;
+let placas = document.getElementById('placas').value;
+let kmAnterior = document.getElementById('kmAnterior').value;
+let kmNuevo = document.getElementById('kmNuevo').value;
+let vin = document.getElementById('vin').value;
+let obs = document.getElementById('obs').value;
+
+if(!folder || !placas || !kmNuevo){
+alert('Completa los datos');
+return;
+}
+
+let existentes = data.records.filter(r=>r.folder===folder);
+
+let archivo = 'R' + (Math.floor(existentes.length / 20) + 1);
+
+data.records.push({
+folder,
+archivo,
+placas,
+kmAnterior,
+kmNuevo,
+vin,
+obs,
+fecha:hoy
+});
+
+saveData();
+renderFolders();
+
+document.getElementById('placas').value='';
+document.getElementById('kmAnterior').value='';
+document.getElementById('kmNuevo').value='';
+document.getElementById('vin').value='';
+document.getElementById('obs').value='';
+
+}
+
+function borrarRegistro(index){
+
+if(confirm('¿Borrar registro?')){
+data.records.splice(index,1);
+saveData();
+renderFolders();
+}
+
+}
+
+function borrarCarpeta(nombre){
+
+if(confirm('¿Borrar carpeta completa?')){
+
+data.folders = data.folders.filter(f=>f!==nombre);
+data.records = data.records.filter(r=>r.folder!==nombre);
+
+saveData();
+renderFolderSelect();
+renderFolders();
+
+}
+
+}
+
+function generarPDF(folder,file){
+
+let registros = data.records.filter(r=>r.folder===folder && r.archivo===file);
+
+let filas='';
+
+for(let i=0;i<20;i++){
+
+let r = registros[i];
+
+if(r){
+
+filas += `
+<tr>
+<td>${i+1}</td>
+<td>${folder}</td>
+<td>${r.placas}</td>
+<td>${r.kmAnterior}</td>
+<td>${r.kmNuevo}</td>
+<td>${r.vin}</td>
+<td>${r.obs}</td>
+</tr>
+`;
+
+}else{
+
+filas += `
+<tr>
+<td>${i+1}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+`;
+
+}
+
+}
+
+let ventana = window.open('', '', 'width=900,height=700');
+
+ventana.document.write(`
+<html>
+<head>
+<title>${folder}_${file}</title>
+
+<style>
+body{
+font-family:Arial;
+padding:20px;
+}
+h1,h2{
+text-align:center;
+margin:0;
+}
+.info{
+margin-top:10px;
+text-align:right;
+font-size:14px;
+}
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+th,td{
+border:1px solid black;
+padding:8px;
+text-align:center;
+font-size:12px;
+}
+th{
+background:black;
+color:white;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>VELOCIMETROS CHARLY</h1>
+<h2>REPORTE DE KILOMETRAJES</h2>
+
+<div class="info">
+FECHA: ${hoy}
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>NUM</th>
+<th>VEHICULO</th>
+<th>PLACAS</th>
+<th>KM ANTERIOR</th>
+<th>KM NUEVO</th>
+<th>VIN</th>
+<th>OBSERVACIONES</th>
+</tr>
+</thead>
+
+<tbody>
+${filas}
+</tbody>
+
+</table>
+
+</body>
+</html>
+`);
+
+ventana.document.close();
+ventana.print();
+
+}
+
+function renderFolders(){
+
+let div = document.getElementById('folders');
+div.innerHTML='';
+
+data.folders.forEach(folder=>{
+
+let records = data.records.filter(r=>r.folder===folder);
+
+let archivos = {};
+
+records.forEach(r=>{
+
+if(!archivos[r.archivo]){
+archivos[r.archivo]=[];
+}
+
+archivos[r.archivo].push(r);
+
+});
+
+div.innerHTML += `
+<div class="folder">
+
+<div class="folder-title">
+📁 ${folder}
+</div>
+
+<div class="top-buttons">
+<button onclick="borrarCarpeta('${folder}')" class="red">
+BORRAR CARPETA
+</button>
+</div>
+
+${Object.keys(archivos).map(file=>`
+
+<div class="file-box">
+
+<h3>📄 ${folder}_${file}</h3>
+
+<div class="top-buttons">
+<button class="gray" onclick="generarPDF('${folder}','${file}')">
+DESCARGAR PDF
+</button>
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>NUM</th>
+<th>VEHICULO</th>
+<th>PLACAS</th>
+<th>KM ANT.</th>
+<th>KM NUEVO</th>
+<th>VIN</th>
+<th>OBS.</th>
+<th>ACCION</th>
+</tr>
+</thead>
+
+<tbody>
+
+${archivos[file].map((r,i)=>`
+
+<tr>
+<td>${i+1}</td>
+<td>${r.folder}</td>
+<td>${r.placas}</td>
+<td>${r.kmAnterior}</td>
+<td>${r.kmNuevo}</td>
+<td>${r.vin}</td>
+<td>${r.obs}</td>
+<td>
+<button class="red" onclick="borrarRegistro(${data.records.indexOf(r)})">
+BORRAR
+</button>
+</td>
+</tr>
+
+`).join('')}
+
+</tbody>
+
+</table>
+
+</div>
+
+`).join('')}
+
+</div>
+`;
+
+});
+
+}
+
+renderFolderSelect();
+renderFolders();
+
+</script>
+
+</body>
+</html>
