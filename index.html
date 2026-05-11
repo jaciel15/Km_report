@@ -459,7 +459,9 @@ BORRAR CARPETA
 
 
 <div id="content_${folder}" style="display:none;">
+
 ${Object.keys(archivos).map(file=>`
+
 <div class="file-box">
 
 <h3>📄 ${folder}_${file}</h3>
@@ -501,10 +503,12 @@ FECHA: ${r.obs}
 
 </div>
 
+`).join('')}
+
+</div>
+
 </div>
 `;
-
-});
 
 }
 
