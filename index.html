@@ -445,7 +445,7 @@ archivos[r.archivo].push(r);
 div.innerHTML += `
 <div class="folder">
 
-<div class="folder-title">
+<div class="folder-title" onclick="toggleFolder('${folder}')" style="cursor:pointer;">
 📁 ${folder}
 </div>
 
@@ -455,6 +455,8 @@ BORRAR CARPETA
 </button>
 </div>
 
+
+<div id="content_${folder}" style="display:none;">
 ${Object.keys(archivos).map(file=>`
 
 <div class="file-box">
@@ -478,6 +480,8 @@ TOTAL VEHÍCULOS: ${archivos[file].length}
 `).join('')}
 
 </div>
+
+</div>
 `;
 
 });
@@ -486,6 +490,17 @@ TOTAL VEHÍCULOS: ${archivos[file].length}
 
 renderFolderSelect();
 renderFolders();
+function toggleFolder(folder){
+
+let div = document.getElementById('content_' + folder);
+
+if(div.style.display === 'none'){
+div.style.display = 'block';
+}else{
+div.style.display = 'none';
+}
+
+}
 
 </script>
 
