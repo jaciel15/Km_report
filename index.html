@@ -505,7 +505,7 @@ TOTAL VEHÍCULOS: ${archivos[file].length}
 
 <div style="margin-top:15px;">
 
-${archivos[file].map(r => `
+${archivos[file].map((r,index) => `
 
 <div style="
 padding:10px;
@@ -519,12 +519,12 @@ font-size:14px;
 🚗 ${r.placas}<br>
 KM ANTERIOR: ${r.kmAnterior}<br>
 KM NUEVO: ${r.kmNuevo}<br>
-VIN: ${r.vin}<br>
+VIN: ${r.vin}<br> 
 FECHA: ${r.obs}
 
 <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
 
-<button onclick="editarRegistro(${data.records.indexOf(r)})"
+<button onclick="editarRegistro(${index})"
 style="
 background:#444;
 color:white;
@@ -537,7 +537,7 @@ cursor:pointer;
 ✏️ EDITAR
 </button>
 
-<button onclick="borrarRegistro(${data.records.indexOf(r)})"
+<button onclick="borrarRegistro(${index})"
 style="
 background:red;
 color:white;
