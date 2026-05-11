@@ -349,37 +349,48 @@ ventana.document.write(`
 <title>${folder}_${file}</title>
 
 <style>
-@page {
-size: landscape;
-margin: 10mm;
+@page{
+size:A4 landscape;
+margin:4mm;
 }
 
 body{
 font-family:Arial;
-padding:5px;
+padding:0;
+margin:0;
+zoom:0.78;
 }
+
 h1,h2{
 text-align:center;
 margin:0;
-line-height:1.1;
+padding:0;
+line-height:1;
+font-size:16px;
 }
+
 .info{
-margin-top:10px;
+margin-top:2px;
 text-align:right;
-font-size:14px;
+font-size:10px;
 }
+
 table{
 width:100%;
 border-collapse:collapse;
-margin-top:20px;
+margin-top:8px;
+table-layout:fixed;
 }
+
 th,td{
 border:1px solid black;
-padding:3px;
+padding:2px;
 text-align:center;
-font-size:9px;
-height:18px;
+font-size:8px;
+height:16px;
+word-wrap:break-word;
 }
+
 th{
 background:white;
 color:black;
