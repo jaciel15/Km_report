@@ -288,6 +288,33 @@ document.getElementById('kmNuevo').value='';
 document.getElementById('vin').value='';
 
 }
+function editarRegistro(index){
+
+let r = data.records[index];
+
+let nuevaPlaca = prompt('PLACAS', r.placas);
+if(nuevaPlaca === null)return;
+
+let nuevoAnterior = prompt('KM ANTERIOR', r.kmAnterior);
+if(nuevoAnterior === null)return;
+
+let nuevoKm = prompt('KM NUEVO', r.kmNuevo);
+if(nuevoKm === null)return;
+
+let nuevoVin = prompt('VIN', r.vin);
+if(nuevoVin === null)return;
+
+data.records[index].placas = nuevaPlaca;
+data.records[index].kmAnterior = nuevoAnterior;
+data.records[index].kmNuevo = nuevoKm;
+data.records[index].vin = nuevoVin;
+
+saveData();
+
+renderFolders();
+
+}
+
 function borrarRegistro(index){
 
 if(confirm('¿Borrar registro?')){
@@ -508,6 +535,36 @@ KM ANTERIOR: ${r.kmAnterior}<br>
 KM NUEVO: ${r.kmNuevo}<br>
 VIN: ${r.vin}<br>
 FECHA: ${r.obs}
+
+<div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
+
+<button onclick="editarRegistro(${data.records.indexOf(r)})"
+style="
+background:#444;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:5px;
+font-weight:bold;
+cursor:pointer;
+">
+✏️ EDITAR
+</button>
+
+<button onclick="borrarRegistro(${data.records.indexOf(r)})"
+style="
+background:red;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:5px;
+font-weight:bold;
+cursor:pointer;
+">
+🗑 BORRAR
+</button>
+
+</div>
 
 </div>
 
