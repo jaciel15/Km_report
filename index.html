@@ -111,8 +111,6 @@ background:#444;
 
 <input type="text" id="vin" placeholder="VIN">
 
-<input type="text" id="obs" placeholder="OBSERVACIONES">
-
 </div>
 
 <div class="top-buttons">
@@ -178,7 +176,8 @@ let placas = document.getElementById('placas').value;
 let kmAnterior = document.getElementById('kmAnterior').value;
 let kmNuevo = document.getElementById('kmNuevo').value;
 let vin = document.getElementById('vin').value;
-let obs = document.getElementById('obs').value;
+
+let fechaAuto = new Date().toLocaleDateString('es-MX');
 
 if(!folder || !placas || !kmNuevo){
 alert('Completa los datos');
@@ -196,8 +195,7 @@ placas,
 kmAnterior,
 kmNuevo,
 vin,
-obs,
-fecha:hoy
+obs:fechaAuto
 });
 
 saveData();
@@ -207,10 +205,8 @@ document.getElementById('placas').value='';
 document.getElementById('kmAnterior').value='';
 document.getElementById('kmNuevo').value='';
 document.getElementById('vin').value='';
-document.getElementById('obs').value='';
 
 }
-
 function borrarRegistro(index){
 
 if(confirm('¿Borrar registro?')){
@@ -278,7 +274,7 @@ filas += `
 
 }
 
-let ventana = window.open('', '', 'width=900,height=700');
+let ventana = window.open('', '', 'width=1600,height=900');
 
 ventana.document.write(`
 <html>
@@ -311,8 +307,9 @@ text-align:center;
 font-size:12px;
 }
 th{
-background:black;
-color:white;
+background:white;
+color:black;
+font-weight:bold;
 }
 </style>
 
@@ -322,10 +319,6 @@ color:white;
 
 <h1>VELOCIMETROS CHARLY</h1>
 <h2>REPORTE DE KILOMETRAJES</h2>
-
-<div class="info">
-FECHA: ${hoy}
-</div>
 
 <table>
 
