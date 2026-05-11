@@ -472,6 +472,29 @@ DESCARGAR PDF
 TOTAL VEHÍCULOS: ${archivos[file].length}
 </p>
 
+<div style="margin-top:15px;">
+
+${archivos[file].map(r => `
+
+<div style="
+padding:10px;
+border:1px solid #ccc;
+border-radius:8px;
+margin-top:8px;
+background:#f8f8f8;
+font-size:14px;
+">
+
+🚗 ${r.placas}<br>
+KM: ${r.kmNuevo}<br>
+VIN: ${r.vin}
+
+</div>
+
+`).join('')}
+
+</div>
+
 </div>
 
 `).join('')}
