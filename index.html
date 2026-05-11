@@ -200,9 +200,9 @@ let auto = extraer('AUTO');
 
 let placa = extraer('PLACA');
 
-let kmAnterior = texto.split('KM anterior*:')[1]?.split('\n')[0]?.replace('*','').trim() || '';
+let kmAnterior = texto.split('*KM anterior*:')[1]?.split('\n')[0]?.replace('*','').trim() || '';
 
-let kmNuevo = texto.split('CORECTO KM*:')[1]?.split('\n')[0]?.replace('*','').trim() || '';
+let kmNuevo = texto.split('*CORECTO KM*:')[1]?.split('\n')[0]?.replace('*','').trim() || '';
 let vin = extraer('VIN');
 
 document.getElementById('folderSelect').value = auto.toUpperCase();
