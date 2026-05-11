@@ -469,43 +469,9 @@ DESCARGAR PDF
 
 <table>
 
-<thead>
-<tr>
-<th>NUM</th>
-<th>VEHICULO</th>
-<th>PLACAS</th>
-<th>KM ANT.</th>
-<th>KM NUEVO</th>
-<th>VIN</th>
-<th>OBS.</th>
-<th>ACCION</th>
-</tr>
-</thead>
-
-<tbody>
-
-${archivos[file].map((r,i)=>`
-
-<tr>
-<td>${i+1}</td>
-<td>${r.folder}</td>
-<td>${r.placas}</td>
-<td>${r.kmAnterior}</td>
-<td>${r.kmNuevo}</td>
-<td>${r.vin}</td>
-<td>${r.obs}</td>
-<td>
-<button class="red" onclick="borrarRegistro(${data.records.indexOf(r)})">
-BORRAR
-</button>
-</td>
-</tr>
-
-`).join('')}
-
-</tbody>
-
-</table>
+<p>
+TOTAL VEHÍCULOS: ${archivos[file].length}
+</p>
 
 </div>
 
