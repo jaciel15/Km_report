@@ -158,12 +158,11 @@ let data = JSON.parse(localStorage.getItem('kmreportmaster')) || {
 folders:['AVEO','L200','ELANTRA','SENTRA'],
 records:[]
 };
-
 async function saveData(){
 
 localStorage.setItem('kmreportmaster', JSON.stringify(data));
 
-await setDoc(doc(db,"kmreport","principal"),{
+await db.collection("kmreport").doc("principal").set({
 folders:data.folders,
 records:data.records
 });
