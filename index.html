@@ -475,7 +475,7 @@ TOTAL VEHÍCULOS: ${archivos[file].length}
 <div style="margin-top:15px;">
 
 ${archivos[file].map(r => `
-
+    
 <div style="
 padding:10px;
 border:1px solid #ccc;
@@ -486,14 +486,14 @@ font-size:14px;
 ">
 
 🚗 ${r.placas}<br>
-KM: ${r.kmNuevo}<br>
-VIN: ${r.vin}
+KM ANTERIOR: ${r.kmAnterior}<br>
+KM NUEVO: ${r.kmNuevo}<br>
+VIN: ${r.vin}<br>
+FECHA: ${r.obs}
 
 </div>
 
 `).join('')}
-
-</div>
 
 </div>
 
