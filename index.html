@@ -168,8 +168,15 @@ folders:['AVEO','L200','ELANTRA','SENTRA'],
 records:[]
 };
 
-function saveData(){
+async function saveData(){
+
 localStorage.setItem('kmreportmaster', JSON.stringify(data));
+
+await setDoc(doc(db,"kmreport","principal"),{
+folders:data.folders,
+records:data.records
+});
+
 }
 
 function renderFolderSelect(){
