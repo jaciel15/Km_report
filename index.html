@@ -200,9 +200,9 @@ let auto = extraer('AUTO');
 
 let placa = extraer('PLACA');
 
-let kmAnterior = extraer('KM anterior');
+let kmAnterior = texto.match(/\*KM anterior\*:\s*(\d+)/i)?.[1] || '';
 
-let kmNuevo = extraer('CORECTO KM');
+let kmNuevo = texto.match(/\*CORECTO KM\*:\s*(\d+)/i)?.[1] || '';
 
 let vin = extraer('VIN');
 
