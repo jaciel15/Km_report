@@ -186,13 +186,15 @@ function importarWhatsApp(){
 
 let texto = document.getElementById('whatsappText').value;
 
+texto = texto.replace(/\u00A0/g, ' ');
+
 function extraer(campo){
 
-let regex = new RegExp("\\*?" + campo + "\\*?[:]*\\s*(.*)", "i");
+let regex = new RegExp(campo + ".*?:\\s*(.*)", "i");
 
 let match = texto.match(regex);
 
-return match ? match[1].trim() : '';
+return match ? match[1].replace(/\*/g,'').trim() : '';
 
 }
 
@@ -200,9 +202,10 @@ let auto = extraer('AUTO');
 
 let placa = extraer('PLACA');
 
-let kmAnterior = texto.match(/KM\s*anterior.*?(\d+)/i)?.[1] || '';
+let kmAnterior = extraer('KM anterior');
 
-let kmNuevo = texto.split('*CORECTO KM*:')[1]?.split('\n')[0]?.replace('*','').trim() || '';
+let kmNuevo = extraer('CORECTO KM');
+
 let vin = extraer('VIN');
 
 document.getElementById('folderSelect').value = auto.toUpperCase();
