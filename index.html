@@ -458,7 +458,6 @@ BORRAR CARPETA
 
 <div id="content_${folder}" style="display:none;">
 ${Object.keys(archivos).map(file=>`
-
 <div class="file-box">
 
 <h3>📄 ${folder}_${file}</h3>
@@ -469,9 +468,7 @@ DESCARGAR PDF
 </button>
 </div>
 
-<table>
-
-<p>
+<p style="font-weight:bold;margin-top:10px;">
 TOTAL VEHÍCULOS: ${archivos[file].length}
 </p>
 
