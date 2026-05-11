@@ -179,7 +179,13 @@ data.folders.push(nombre);
 
 saveData();
 
+renderFolderSelect();
 
+renderFolders();
+
+document.getElementById('newFolder').value='';
+
+}
 function importarWhatsApp(){
 
 let texto = document.getElementById('whatsappText').value;
@@ -216,13 +222,6 @@ document.getElementById('vin').value = vin;
 
 }
 
-renderFolderSelect();
-
-renderFolders();
-
-document.getElementById('newFolder').value='';
-
-}
 
 function agregarRegistro(){
 
