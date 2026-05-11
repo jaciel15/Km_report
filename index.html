@@ -96,6 +96,12 @@ background:#444;
 <h2>REPORTE DE KILOMETRAJES</h2>
 
 <div class="grid">
+    
+    <textarea id="whatsappText" placeholder="PEGAR TEXTO DE WHATSAPP" style="width:100%;height:120px;padding:12px;border:1px solid black;border-radius:5px;font-size:14px;"></textarea>
+<button onclick="importarWhatsApp()">
+IMPORTAR WHATSAPP
+</button>
+    
 
 <select id="folderSelect"></select>
 
@@ -162,7 +168,46 @@ return;
 data.folders.push(nombre);
 
 saveData();
+
+
+function importarWhatsApp(){
+
+let texto = document.getElementById('whatsappText').value;
+
+function extraer(campo){
+
+let regex = new RegExp(campo + "[:]*\\s*(.*)", "i");
+
+let match = texto.match(regex);
+
+return match ? match[1].trim() : '';
+
+}
+
+let auto = extraer('AUTO');
+
+let placa = extraer('PLACA');
+
+let kmAnterior = extraer('KM anterior');
+
+let kmNuevo = extraer('CORECTO KM');
+
+let vin = extraer('VIN');
+
+document.getElementById('folderSelect').value = auto.toUpperCase();
+
+document.getElementById('placas').value = placa;
+
+document.getElementById('kmAnterior').value = kmAnterior;
+
+document.getElementById('kmNuevo').value = kmNuevo;
+
+document.getElementById('vin').value = vin;
+
+}
+
 renderFolderSelect();
+
 renderFolders();
 
 document.getElementById('newFolder').value='';
