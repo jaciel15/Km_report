@@ -133,7 +133,33 @@ AGREGAR VEHÍCULO
 
 </div>
 
-<script>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc,
+setDoc,
+onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyBl5Z7Tc4RZrgyZZ-9vXxr_luAqT",
+authDomain: "km-reporte.firebaseapp.com",
+projectId: "km-reporte",
+storageBucket: "km-reporte.appspot.com",
+messagingSenderId: "1023765251441",
+appId: "1:1023765251441:web:b7c88ff6f7c41b833aa2d0"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
 
 let hoy = new Date().toISOString().split('T')[0];
 
