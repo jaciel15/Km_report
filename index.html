@@ -199,6 +199,7 @@ renderFolders();
 document.getElementById('newFolder').value='';
 
 }
+
 function importarWhatsApp(){
 
 let texto = document.getElementById('whatsappText').value;
@@ -206,9 +207,13 @@ let texto = document.getElementById('whatsappText').value;
 let lineas = texto.split('\n');
 
 let auto = '';
+
 let placa = '';
+
 let kmAnterior = '';
+
 let kmNuevo = '';
+
 let vin = '';
 
 lineas.forEach(linea => {
@@ -216,11 +221,10 @@ lineas.forEach(linea => {
 let l = linea.replace(/\*/g,'').trim();
 
 if(l.includes('AUTO')){
-    if(l.includes('AUTO')){
 
 auto = l.split(':')[1]?.trim() || '';
 
-/* AQUI PEGA ESTO */
+/* CREAR CARPETA AUTOMATICA */
 
 let folders = JSON.parse(localStorage.getItem('folders')) || [];
 
@@ -243,25 +247,33 @@ renderFolderSelect();
 /* FIN */
 
 }
-auto = l.split(':')[1]?.trim() || '';
-}
 
 if(l.includes('PLACA')){
+
 placa = l.split(':')[1]?.trim() || '';
+
 }
 
 if(l.includes('KM')){
+
 if(l.includes('anterior')){
+
 kmAnterior = l.split(':')[1]?.trim() || '';
+
 }
+
 }
 
 if(l.includes('CORECTO KM')){
+
 kmNuevo = l.split(':')[1]?.trim() || '';
+
 }
 
 if(l.includes('VIN')){
+
 vin = l.split(':')[1]?.trim() || '';
+
 }
 
 });
