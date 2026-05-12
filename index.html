@@ -216,6 +216,33 @@ lineas.forEach(linea => {
 let l = linea.replace(/\*/g,'').trim();
 
 if(l.includes('AUTO')){
+    if(l.includes('AUTO')){
+
+auto = l.split(':')[1]?.trim() || '';
+
+/* AQUI PEGA ESTO */
+
+let folders = JSON.parse(localStorage.getItem('folders')) || [];
+
+let autoUpper = auto.toUpperCase();
+
+let existe = folders.includes(autoUpper);
+
+if(!existe && autoUpper !== ''){
+
+folders.push(autoUpper);
+
+localStorage.setItem('folders',JSON.stringify(folders));
+
+renderFolders();
+
+renderFolderSelect();
+
+}
+
+/* FIN */
+
+}
 auto = l.split(':')[1]?.trim() || '';
 }
 
